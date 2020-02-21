@@ -1,21 +1,74 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<header style="padding-top: 25px; padding-left: 25px;">
+  <h2> Select a Country to display details or compare details</h2>
+</header>
+<div style="padding-left: 25px;" >
+  <input type="text" list="codes" [(ngModel)]="codeValue" (change)="saveCode($event)">
+  <datalist id="codes">
+    <option *ngFor="let country of countries" [value]="country.name">{{country.name}}</option>
+  </datalist>
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
 
-<router-outlet></router-outlet>
+<div style="padding-left: 25px;" class="modal" *ngIf="firstSelection > 1 && showModal">
+  <p>
+    Do yo wish to compare details with the previous Country?
+  </p>
+  <button (click)="decideToCompare(true)">yes</button>
+  <button (click)="decideToCompare(false)">No</button>
+</div>
+
+<div style="display:flex">
+  
+    <div class="box" *ngIf="(firstSelection < 2 || !showModal) && (details | json) != '{}'">
+
+      <span> Country Details: </span>
+
+      <div class="details">
+        <span class="sub-detail"> </span> Name : {{ details.name }}
+
+        <span class="sub-detail"> </span> Captial : {{ details.capital }}
+
+        <span class="sub-detail"> </span> Region : {{ details.region }}
+
+        <span class="sub-detail"> </span>population : {{ details.population}}
+
+        <span class="sub-detail">Languages spoken:
+
+          <ng-container *ngFor="let language of details?.languages">
+            {{ language.name }}
+          </ng-container> </span>
+
+      </div>
+
+      <img src="https://www.countryflags.io/{{ details?.alpha2Code }}/flat/64.png">
+    </div>
+  
+
+
+  <div class="box" *ngIf="compare && !showModal">
+
+    <span>Country Details:</span>
+    <div class="details">
+      <span class="sub-detail"> </span> Name : {{ compareDetails.name }}
+
+      <span class="sub-detail"> </span> Captial : {{ compareDetails.capital }}
+
+      <span class="sub-detail"> </span> Region : {{ compareDetails.region }}
+
+      <span class="sub-detail"> </span> population : {{ compareDetails.population}}
+
+      <span class="sub-detail">
+        Languages spoken:
+
+        <ng-container *ngFor="let language of compareDetails?.languages">
+          {{ language.name }}
+        </ng-container> </span>
+
+    </div>
+
+
+
+
+
+    <img src="https://www.countryflags.io/{{ compareDetails?.alpha2Code }}/flat/64.png">
+  </div>
+</div>

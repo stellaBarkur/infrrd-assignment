@@ -1,0 +1,21 @@
+.modal {
+    width:50vw;
+    height:50vh;
+    position: relative;
+}
+
+.details {
+    display:flex;
+     flex-direction: column;
+    margin-top:5px
+}
+
+.sub-details {
+    flex:1;
+    margin-top:5px
+}
+
+.box {
+    flex:1;
+    padding: 25px;
+}
